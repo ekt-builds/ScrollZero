@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScrollZero — Offline Short-Form Video Blocker for Android</title>
+    <meta name="description" content="Kill the infinite scroll. Keep the rest of the app. ScrollZero is a 100% offline Android Accessibility blocker for YouTube Shorts, Instagram Reels, Facebook Reels, and TikTok." />
+
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        sz: {
+                            bg: '#0E0E10',
+                            card: '#18181B',
+                            elevated: '#1F1F23',
+                            border: '#2C2C2E',
+                            green: '#34C759',
+                            greenDim: '#132A1E',
+                            red: '#FF453A',
+                            redDim: '#2B1414',
+                            cyan: '#64D2FF',
+                            amber: '#FFD60A',
+                            muted: '#8E8E93',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-sz-bg text-white font-sans antialiased selection:bg-sz-green/30 selection:text-white overflow-x-hidden">
+
+    <!-- Subtle Ambient Top Glow -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,_rgba(52,199,89,0.12),_rgba(14,14,16,0)_68%)]"></div>
+
+    <!-- ========================================================= -->
+    <!-- 1. STICKY MINIMAL NAVBAR                                  -->
+    <!-- ========================================================= -->
+    <header class="sticky top-0 z-50 border-b border-sz-border/80 bg-sz-bg/85 backdrop-blur-md">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+            <!-- Brand Logo & Wordmark -->
+            <a href="#" class="flex items-center gap-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-sz-green/60">
+                <!-- Custom Inline SVG Logo: Circular Play/Zero Ring with Diagonal Slash -->
+                <svg class="h-9 w-9 shrink-0" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ScrollZero Logo">
+                    <rect width="48" height="48" rx="12" fill="#18181B" stroke="#2C2C2E" stroke-width="1.5"/>
+                    <!-- Outer Zero Ring -->
+                    <circle cx="24" cy="24" r="13.5" stroke="#FFFFFF" stroke-width="3.2"/>
+                    <!-- Inner Play Triangle -->
+                    <path d="M21 18.2L30 24L21 29.8V18.2Z" fill="#8E8E93"/>
+                    <!-- Diagonal Block Slash -->
+                    <line x1="13.5" y1="34.5" x2="34.5" y2="13.5" stroke="#0E0E10" stroke-width="6.5" stroke-linecap="round"/>
+                    <line x1="13.5" y1="34.5" x2="34.5" y2="13.5" stroke="#34C759" stroke-width="3.4" stroke-linecap="round"/>
+                </svg>
+                <div class="flex flex-col">
+                    <span class="text-sm font-extrabold tracking-[0.18em] text-white sm:text-base">SCROLLZERO</span>
+                    <span class="text-[10px] font-medium tracking-wider text-sz-muted">com.scrollzero.blocker</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden items-center gap-7 md:flex" aria-label="Primary Navigation">
+                <a href="#features" class="text-sm font-medium text-sz-muted transition-colors hover:text-white">Features</a>
+                <a href="#install" class="text-sm font-medium text-sz-muted transition-colors hover:text-white">Install Guide</a>
+                <a href="#device-setup" class="text-sm font-medium text-sz-muted transition-colors hover:text-white">Device Setup</a>
+                <a href="#privacy" class="text-sm font-medium text-sz-muted transition-colors hover:text-white">Privacy</a>
+            </nav>
+
+            <!-- Right CTA & Mobile Menu Toggle -->
+            <div class="flex items-center gap-2.5">
+                <a href="https://github.com/plyostrideos/ScrollZero/releases/latest" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 rounded-full bg-sz-green px-4 py-2 text-xs font-bold text-black shadow-[0_0_24px_rgba(52,199,89,0.28)] transition-all hover:bg-[#3ee066] active:scale-95 sm:px-5 sm:py-2.5 sm:text-sm">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <span>Download APK</span>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" type="button" aria-label="Toggle Menu" aria-expanded="false"
+                        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sz-border bg-sz-card text-sz-muted transition-colors hover:text-white md:hidden">
+                    <svg id="menuIconOpen" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="4" y1="7" x2="20" y2="7"/>
+                        <line x1="4" y1="12" x2="20" y2="12"/>
+                        <line x1="4" y1="17" x2="20" y2="17"/>
+                    </svg>
+                    <svg id="menuIconClose" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Nav -->
+        <div id="mobileMenu" class="hidden border-t border-sz-border bg-sz-bg/95 px-4 py-3 md:hidden">
+            <div class="flex flex-col gap-1">
+                <a href="#features" class="mobile-nav-link rounded-xl px-3 py-3 text-sm font-medium text-sz-muted hover:bg-sz-card hover:text-white">Features</a>
+                <a href="#install" class="mobile-nav-link rounded-xl px-3 py-3 text-sm font-medium text-sz-muted hover:bg-sz-card hover:text-white">Install Guide</a>
+                <a href="#device-setup" class="mobile-nav-link rounded-xl px-3 py-3 text-sm font-medium text-sz-muted hover:bg-sz-card hover:text-white">Device Setup</a>
+                <a href="#privacy" class="mobile-nav-link rounded-xl px-3 py-3 text-sm font-medium text-sz-muted hover:bg-sz-card hover:text-white">Privacy & FAQ</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ========================================================= -->
+        <!-- 2. HERO SECTION + INTERACTIVE PHONE MOCKUP                -->
+        <!-- ========================================================= -->
+        <section class="relative mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 sm:pt-16 lg:px-8 lg:pb-28 lg:pt-20">
+            <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+
+                <!-- Hero Left Copy -->
+                <div class="lg:col-span-7">
+                    <!-- Status Pill Badge -->
+                    <div class="inline-flex flex-wrap items-center gap-2 rounded-full border border-sz-border bg-sz-card/90 px-3.5 py-1.5 text-[11px] font-bold tracking-[0.12em] text-sz-green sm:text-xs">
+                        <span class="h-2 w-2 rounded-full bg-sz-green shadow-[0_0_10px_#34C759]"></span>
+                        <span>100% OFFLINE • ZERO INTERNET PERMISSION • ANDROID 8.0+</span>
+                    </div>
+
+                    <h1 class="mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                        Kill the Infinite Scroll.
+                        <span class="block text-sz-green">Keep the Rest of the App.</span>
+                    </h1>
+
+                    <p class="mt-6 max-w-2xl text-base leading-relaxed text-sz-muted sm:text-lg">
+                        ScrollZero is a lightweight, local-only Android Accessibility blocker that automatically exits
+                        <span class="font-medium text-white">YouTube Shorts</span>,
+                        <span class="font-medium text-white">Instagram Reels</span>,
+                        <span class="font-medium text-white">Facebook Reels</span>, and
+                        <span class="font-medium text-white">TikTok feeds</span>—without blocking regular videos, DMs, or posts.
+                    </p>
+
+                    <!-- Primary & Secondary CTA Buttons -->
+                    <div class="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
+                        <a href="https://github.com/plyostrideos/ScrollZero/releases/latest" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-sz-green px-6 py-4 text-sm font-bold text-black shadow-[0_0_32px_rgba(52,199,89,0.28)] transition-all hover:bg-[#3ee066] active:scale-[0.98] sm:text-base">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            <span>Download APK (v1.0)</span>
+                        </a>
+
+                        <a href="https://github.com/plyostrideos/ScrollZero" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center justify-center gap-2.5 rounded-2xl border border-sz-border bg-sz-card px-6 py-4 text-sm font-semibold text-white transition-all hover:border-sz-muted/60 hover:bg-sz-elevated active:scale-[0.98] sm:text-base">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                            </svg>
+                            <span>View Source on GitHub</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Specs Strip -->
+                    <div class="mt-8 grid grid-cols-3 gap-3 border-t border-sz-border/80 pt-6 sm:max-w-lg">
+                        <div>
+                            <div class="text-lg font-bold text-white sm:text-xl">0 KB/s</div>
+                            <div class="text-xs text-sz-muted">Network usage</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-white sm:text-xl">200 ms</div>
+                            <div class="text-xs text-sz-muted">CPU scan throttle</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-white sm:text-xl">Kotlin</div>
+                            <div class="text-xs text-sz-muted">Jetpack Compose</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right: Interactive Android Phone Mockup -->
+                <div class="flex flex-col items-center lg:col-span-5">
+                    <div class="mb-3 flex items-center gap-2 text-xs font-medium text-sz-muted">
+                        <span class="inline-block h-2 w-2 animate-pulse rounded-full bg-sz-cyan"></span>
+                        <span>Interactive Preview — Tap buttons &amp; switches below</span>
+                    </div>
+
+                    <!-- Phone Outer Frame -->
+                    <div class="relative w-full max-w-[330px] rounded-[42px] border-[6px] border-[#262629] bg-sz-bg p-3.5 shadow-[0_25px_70px_rgba(0,0,0,0.75)] ring-1 ring-white/10">
+                        <!-- Top Status Bar & Camera Punch-Hole -->
+                        <div class="mb-4 flex items-center justify-between px-2 pt-0.5 text-[11px] font-semibold text-white/80">
+                            <span>19:32</span>
+                            <div class="h-4 w-4 rounded-full bg-[#050506] ring-1 ring-white/10"></div>
+                            <div class="flex items-center gap-1.5">
+                                <span id="phoneShieldIcon" class="text-[10px] text-sz-green" title="Foreground Shield Active">●</span>
+                                <span>5G</span>
+                                <span class="rounded bg-white/15 px-1 text-[9px]">92%</span>
+                            </div>
+                        </div>
+
+                        <!-- ScrollZero App Interior UI -->
+                        <div class="relative rounded-[28px] bg-sz-bg px-2 pb-3 pt-1">
+                            <!-- App Header -->
+                            <div>
+                                <div class="text-lg font-extrabold tracking-[0.16em] text-white">SCROLLZERO</div>
+                                <div class="text-[11px] text-sz-muted">Offline Short-Form Blocker</div>
+                            </div>
+
+                            <!-- Engine Status Card -->
+                            <div id="mockStatusCard" class="mt-4 rounded-xl bg-sz-greenDim p-3.5 transition-colors duration-200">
+                                <div class="flex items-center justify-between">
+                                    <span id="mockStatusTitle" class="text-xs font-bold tracking-wide text-sz-green">ENGINE ACTIVE</span>
+                                    <span id="mockActiveCount" class="rounded-full bg-black/30 px-2 py-0.5 text-[10px] font-semibold text-sz-green">4 / 4 apps</span>
+                                </div>
+                                <p id="mockStatusDesc" class="mt-1.5 text-[11px] leading-snug text-[#D1D1D6]">
+                                    Foreground shield connected. Monitoring selected apps locally.
+                                </p>
+                            </div>
+
+                            <!-- Master Shield Toggle Button -->
+                            <button id="mockMasterBtn" type="button"
+                                    class="mt-3 flex h-11 w-full items-center justify-center rounded-xl bg-sz-green text-xs font-extrabold tracking-wide text-black transition-all active:scale-[0.98]">
+                                SHIELD RUNNING (TAP TO PAUSE)
+                            </button>
+
+                            <!-- Platform Toggle Switches -->
+                            <div class="mt-4 divide-y divide-sz-border/60">
+                                <!-- YouTube Shorts -->
+                                <div class="flex items-center justify-between py-2.5">
+                                    <span class="text-[13px] font-medium text-white">YouTube Shorts</span>
+                                    <button type="button" role="switch" aria-checked="true" data-platform="YouTube Shorts"
+                                            class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
+                                        <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
+                                    </button>
+                                </div>
+
+                                <!-- Instagram Reels -->
+                                <div class="flex items-center justify-between py-2.5">
+                                    <span class="text-[13px] font-medium text-white">Instagram Reels</span>
+                                    <button type="button" role="switch" aria-checked="true" data-platform="Instagram Reels"
+                                            class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
+                                        <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
+                                    </button>
+                                </div>
+
+                                <!-- Facebook Reels -->
+                                <div class="flex items-center justify-between py-2.5">
+                                    <span class="text-[13px] font-medium text-white">Facebook Reels</span>
+                                    <button type="button" role="switch" aria-checked="true" data-platform="Facebook Reels"
+                                            class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
+                                        <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
+                                    </button>
+                                </div>
+
+                                <!-- TikTok Feed -->
+                                <div class="flex items-center justify-between py-2.5">
+                                    <span class="text-[13px] font-medium text-white">TikTok Feed</span>
+                                    <button type="button" role="switch" aria-checked="true" data-platform="TikTok Feed"
+                                            class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
+                                        <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Mini Live Event Feedback Bar -->
+                            <div class="mt-3 rounded-xl border border-sz-border bg-sz-card px-3 py-2 text-[11px] text-sz-muted">
+                                <span class="font-semibold text-sz-cyan">Status:</span>
+                                <span id="mockToastText">Silent foreground shield active.</span>
+                            </div>
+
+                            <!-- Bottom Gesture Pill -->
+                            <div class="mx-auto mt-4 h-1 w-24 rounded-full bg-white/25"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 3. SUPPORTED PLATFORMS & ENGINE ARCHITECTURE              -->
+        <!-- ========================================================= -->
+        <section id="features" class="border-t border-sz-border/70 bg-[#111114] py-20 lg:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-sz-green">Detection Engine</span>
+                    <h2 class="mt-2.5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Surgical blocking for every major short-form feed.
+                    </h2>
+                    <p class="mt-3 text-base text-sz-muted">
+                        Instead of blocking whole apps, ScrollZero inspects only the active feed container and triggers a clean Android back or home action the instant a short-form player opens.
+                    </p>
+                </div>
+
+                <!-- 4 Platform Cards -->
+                <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- YouTube Shorts -->
+                    <article class="flex flex-col justify-between rounded-2xl border border-sz-border bg-sz-card p-6 transition-colors hover:border-sz-green/50">
+                        <div>
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-sz-bg border border-sz-border text-sz-green">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M10 15l5.19-3L10 9v6zm11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
+                                </svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-bold text-white">YouTube Shorts</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                Instant View ID detection intercepts Shorts containers immediately while leaving long-form videos, subscriptions, and search intact.
+                            </p>
+                        </div>
+                        <div class="mt-5 rounded-lg bg-sz-bg px-2.5 py-1.5 font-mono text-[11px] text-sz-cyan">
+                            GLOBAL_ACTION_BACK
+                        </div>
+                    </article>
+
+                    <!-- Instagram Reels -->
+                    <article class="flex flex-col justify-between rounded-2xl border border-sz-border bg-sz-card p-6 transition-colors hover:border-sz-green/50">
+                        <div>
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-sz-bg border border-sz-border text-sz-green">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                                </svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-bold text-white">Instagram Reels</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                Clips viewer interception catches full-screen Reels playback instantly without touching your DMs, Stories, or photo feed.
+                            </p>
+                        </div>
+                        <div class="mt-5 rounded-lg bg-sz-bg px-2.5 py-1.5 font-mono text-[11px] text-sz-cyan">
+                            clips_viewer_view_pager
+                        </div>
+                    </article>
+
+                    <!-- Facebook Reels -->
+                    <article class="flex flex-col justify-between rounded-2xl border border-sz-border bg-sz-card p-6 transition-colors hover:border-sz-green/50">
+                        <div>
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-sz-bg border border-sz-border text-sz-green">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/>
+                                </svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-bold text-white">Facebook Reels</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                Optimized recursive Litho heuristic scanner with a 200ms CPU throttle detects Reels clusters while ignoring regular posts and Marketplace.
+                            </p>
+                        </div>
+                        <div class="mt-5 rounded-lg bg-sz-bg px-2.5 py-1.5 font-mono text-[11px] text-sz-cyan">
+                            Litho Heuristic • 200ms
+                        </div>
+                    </article>
+
+                    <!-- TikTok Feed -->
+                    <article class="flex flex-col justify-between rounded-2xl border border-sz-border bg-sz-card p-6 transition-colors hover:border-sz-green/50">
+                        <div>
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-sz-bg border border-sz-border text-sz-green">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                                </svg>
+                            </div>
+                            <h3 class="mt-4 text-lg font-bold text-white">TikTok Feed</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                Active tab state detection identifies when the <span class="text-white">For You</span> or <span class="text-white">Following</span> feed is active and exits cleanly to Home.
+                            </p>
+                        </div>
+                        <div class="mt-5 rounded-lg bg-sz-bg px-2.5 py-1.5 font-mono text-[11px] text-sz-cyan">
+                            GLOBAL_ACTION_HOME
+                        </div>
+                    </article>
+                </div>
+
+                <!-- 3 Architecture Highlights -->
+                <div class="mt-8 grid gap-5 md:grid-cols-3">
+                    <div class="rounded-2xl border border-sz-border bg-sz-bg p-6">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sz-greenDim text-sz-green">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+                                    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+                                    <path d="M10.71 5.05A16 16 0 0 1 22.58 9"/>
+                                    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+                                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                                    <line x1="12" y1="20" x2="12.01" y2="20"/>
+                                </svg>
+                            </span>
+                            <h3 class="text-base font-bold text-white">Zero Network Access</h3>
+                        </div>
+                        <p class="mt-3 text-sm leading-relaxed text-sz-muted">
+                            ScrollZero does not even declare <code class="rounded bg-sz-card px-1.5 py-0.5 text-xs text-sz-cyan">INTERNET</code> permission in its manifest. Nothing can ever leave your phone.
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl border border-sz-border bg-sz-bg p-6">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sz-cyan/15 text-sz-cyan">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </span>
+                            <h3 class="text-base font-bold text-white">Silent Foreground Shield</h3>
+                        </div>
+                        <p class="mt-3 text-sm leading-relaxed text-sz-muted">
+                            Promoted to a <code class="rounded bg-sz-card px-1.5 py-0.5 text-xs text-sz-cyan">specialUse</code> Foreground Service with a silent <code class="rounded bg-sz-card px-1.5 py-0.5 text-xs text-sz-cyan">IMPORTANCE_LOW</code> notification so Android won't kill it in the background.
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl border border-sz-border bg-sz-bg p-6">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sz-amber/15 text-sz-amber">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                </svg>
+                            </span>
+                            <h3 class="text-base font-bold text-white">Crash-Proof &amp; Throttled</h3>
+                        </div>
+                        <p class="mt-3 text-sm leading-relaxed text-sz-muted">
+                            Wrapped in stale-node exception guards with a 200ms scan throttle and 900ms cooldown—preventing battery drain and "Not working" service drops.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 4. INTERACTIVE INSTALLATION & PLAY PROTECT WALKTHROUGH    -->
+        <!-- ========================================================= -->
+        <section id="install" class="border-t border-sz-border/70 py-20 lg:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-sz-cyan">Sideloading Walkthrough</span>
+                    <h2 class="mt-2.5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Install &amp; Unlock in 3 Quick Steps
+                    </h2>
+                    <p class="mt-3 text-base text-sz-muted">
+                        Because ScrollZero uses Android's <code class="rounded bg-sz-card px-1.5 py-0.5 text-xs text-white">AccessibilityService</code> and is distributed directly via APK outside the Play Store, Android's security layers require two one-time confirmations.
+                    </p>
+                </div>
+
+                <!-- Interactive 3-Step Timeline -->
+                <div class="mt-12 space-y-6">
+
+                    <!-- STEP 1 -->
+                    <div class="rounded-2xl border border-sz-border bg-sz-card p-6 sm:p-8">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sz-cyan/15 text-lg font-extrabold text-sz-cyan">
+                                1
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex flex-wrap items-center gap-2.5">
+                                    <h3 class="text-xl font-bold text-white">Download &amp; Bypass Google Play Protect</h3>
+                                    <span class="rounded-full bg-sz-cyan/15 px-2.5 py-0.5 text-[11px] font-bold text-sz-cyan">Required for APKs</span>
+                                </div>
+                                <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                    Independent APKs that declare Accessibility permissions automatically trigger a Google Play Protect warning because the signing certificate isn't on Google Play.
+                                </p>
+
+                                <div class="mt-5 grid gap-4 md:grid-cols-2">
+                                    <!-- Option A -->
+                                    <div class="rounded-xl border border-sz-border bg-sz-bg p-4">
+                                        <div class="text-xs font-bold uppercase tracking-wider text-sz-green">Option A — Quickest</div>
+                                        <p class="mt-2 text-sm text-[#D1D1D6]">
+                                            When the Play Protect popup appears after tapping <code class="text-white">app-release.apk</code>, tap <strong class="text-white">More details</strong> → <strong class="text-white">Install anyway</strong>.
+                                        </p>
+                                    </div>
+
+                                    <!-- Option B -->
+                                    <div class="rounded-xl border border-sz-border bg-sz-bg p-4">
+                                        <div class="text-xs font-bold uppercase tracking-wider text-sz-amber">Option B — If "Install anyway" is hidden</div>
+                                        <ol class="mt-2 list-decimal space-y-1 pl-4 text-sm text-[#D1D1D6]">
+                                            <li>Open <strong class="text-white">Google Play Store</strong> → tap your <strong class="text-white">Profile icon</strong> → <strong class="text-white">Play Protect</strong> → <strong class="text-white">Gear icon</strong>.</li>
+                                            <li>Temporarily toggle <strong class="text-white">OFF</strong> <em>Scan apps with Play Protect</em>.</li>
+                                            <li>Install <code class="text-white">app-release.apk</code>, then turn Play Protect back <strong class="text-white">ON</strong>.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <!-- Optional ADB Copy Bar -->
+                                <div class="mt-4 flex flex-col justify-between gap-3 rounded-xl border border-sz-border/80 bg-sz-bg/70 px-4 py-3 sm:flex-row sm:items-center">
+                                    <div class="text-xs text-sz-muted">
+                                        <span class="font-semibold text-white">Power user tip (Skips Play Protect &amp; Restricted Settings):</span>
+                                        <code id="adbCmdText" class="ml-1 font-mono text-sz-cyan">adb install app-release.apk</code>
+                                    </div>
+                                    <button id="copyAdbBtn" type="button"
+                                            class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-sz-border bg-sz-card px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-sz-elevated active:scale-95">
+                                        <span id="copyAdbLabel">Copy ADB Command</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div class="rounded-2xl border border-sz-border bg-sz-card p-6 sm:p-8">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sz-amber/15 text-lg font-extrabold text-sz-amber">
+                                2
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex flex-wrap items-center gap-2.5">
+                                    <h3 class="text-xl font-bold text-white">Unlock "Controlled by Restricted Setting"</h3>
+                                    <span class="rounded-full bg-sz-amber/15 px-2.5 py-0.5 text-[11px] font-bold text-sz-amber">Android 13+</span>
+                                </div>
+                                <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                    Android greys out Accessibility for sideloaded apps until you grant restricted settings once:
+                                </p>
+                                <ol class="mt-4 grid gap-3 sm:grid-cols-2">
+                                    <li class="rounded-xl border border-sz-border bg-sz-bg p-3.5 text-sm text-[#D1D1D6]">
+                                        <span class="font-bold text-white">1. Tap ScrollZero in Accessibility first:</span> Open ScrollZero → <strong class="text-white">Open Accessibility Settings</strong> → tap <strong class="text-white">ScrollZero</strong> (so Android registers the request).
+                                    </li>
+                                    <li class="rounded-xl border border-sz-border bg-sz-bg p-3.5 text-sm text-[#D1D1D6]">
+                                        <span class="font-bold text-white">2. Open App Info:</span> Go to <strong class="text-white">Settings → Apps → ScrollZero</strong> (or tap <em>Open ScrollZero App Info</em> inside the app).
+                                    </li>
+                                    <li class="rounded-xl border border-sz-border bg-sz-bg p-3.5 text-sm text-[#D1D1D6]">
+                                        <span class="font-bold text-white">3. Allow restricted settings:</span> Tap the <strong class="text-white">⋮ (More)</strong> menu in the top-right or bottom corner (or <em>Other permissions</em> on HyperOS) → tap <strong class="text-white">Allow restricted settings</strong>.
+                                    </li>
+                                    <li class="rounded-xl border border-sz-border bg-sz-bg p-3.5 text-sm text-[#D1D1D6]">
+                                        <span class="font-bold text-white">4. Toggle Accessibility ON:</span> Return to <strong class="text-white">Downloaded apps / Accessibility</strong> and switch <strong class="text-white">ScrollZero ON</strong>.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3 -->
+                    <div class="rounded-2xl border border-sz-border bg-sz-card p-6 sm:p-8">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sz-greenDim text-lg font-extrabold text-sz-green">
+                                3
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-white">Activate Master Shield &amp; Lock in Background</h3>
+                                <p class="mt-2 text-sm leading-relaxed text-sz-muted">
+                                    Return to ScrollZero—the status card will turn green (<strong class="text-sz-green">ENGINE ACTIVE</strong>) and start its silent foreground shield. Complete your phone brand's 30-second background checklist below so your phone never stops the service overnight.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 5. INTERACTIVE MULTI-BRAND BACKGROUND SETUP SELECTOR      -->
+        <!-- ========================================================= -->
+        <section id="device-setup" class="border-t border-sz-border/70 bg-[#111114] py-20 lg:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-sz-amber">24/7 Persistence</span>
+                    <h2 class="mt-2.5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Multi-Brand Background Setup
+                    </h2>
+                    <p class="mt-3 text-base text-sz-muted">
+                        ScrollZero automatically detects your phone's manufacturer inside the app. Select your brand below to preview the exact anti-kill checklist.
+                    </p>
+                </div>
+
+                <!-- Brand Selector Tabs -->
+                <div id="brandTabs" class="mt-8 flex flex-wrap gap-2.5" role="tablist" aria-label="Android Phone Brands">
+                    <button type="button" role="tab" data-brand="xiaomi" aria-selected="true"
+                            class="brand-tab rounded-xl border border-sz-green bg-sz-greenDim px-4 py-2.5 text-sm font-bold text-sz-green transition-all">
+                        Xiaomi / HyperOS
+                    </button>
+                    <button type="button" role="tab" data-brand="samsung" aria-selected="false"
+                            class="brand-tab rounded-xl border border-sz-border bg-sz-card px-4 py-2.5 text-sm font-semibold text-sz-muted transition-all hover:text-white">
+                        Samsung One UI
+                    </button>
+                    <button type="button" role="tab" data-brand="oppo" aria-selected="false"
+                            class="brand-tab rounded-xl border border-sz-border bg-sz-card px-4 py-2.5 text-sm font-semibold text-sz-muted transition-all hover:text-white">
+                        Oppo / Realme / OnePlus
+                    </button>
+                    <button type="button" role="tab" data-brand="vivo" aria-selected="false"
+                            class="brand-tab rounded-xl border border-sz-border bg-sz-card px-4 py-2.5 text-sm font-semibold text-sz-muted transition-all hover:text-white">
+                        Vivo / iQOO
+                    </button>
+                    <button type="button" role="tab" data-brand="stock" aria-selected="false"
+                            class="brand-tab rounded-xl border border-sz-border bg-sz-card px-4 py-2.5 text-sm font-semibold text-sz-muted transition-all hover:text-white">
+                        Pixel / Stock Android
+                    </button>
+                </div>
+
+                <!-- Dynamic Checklist Panel -->
+                <div class="mt-6 rounded-2xl border border-sz-border bg-sz-card p-6 sm:p-8">
+                    <div class="flex flex-col justify-between gap-2 border-b border-sz-border pb-5 sm:flex-row sm:items-center">
+                        <div>
+                            <div id="brandCardTitle" class="text-xs font-extrabold uppercase tracking-[0.14em] text-sz-amber">
+                                XIAOMI / HYPEROS / MIUI SETUP
+                            </div>
+                            <p id="brandCardSubtitle" class="mt-1 text-sm text-sz-muted">
+                                Prevents Xiaomi PowerKeeper from killing ScrollZero in the background.
+                            </p>
+                        </div>
+                        <span id="brandProgressBadge" class="inline-flex w-fit items-center rounded-full border border-sz-border bg-sz-bg px-3 py-1 text-xs font-semibold text-sz-muted">
+                            Tap items to check off
+                        </span>
+                    </div>
+
+                    <div id="brandChecklistContainer" class="mt-5 space-y-3">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+
+                    <div class="mt-6 rounded-xl border border-sz-border/80 bg-sz-bg px-4 py-3 text-xs leading-relaxed text-sz-muted">
+                        <span class="font-bold text-sz-cyan">In-App Shortcut:</span>
+                        ScrollZero includes a built-in <strong class="text-white">Allow Unrestricted Background</strong> button and <strong class="text-white">Open ScrollZero App Info</strong> deep-link so you don't have to hunt through phone menus.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 6. PRIVACY & FAQ ACCORDION                                -->
+        <!-- ========================================================= -->
+        <section id="privacy" class="border-t border-sz-border/70 py-20 lg:py-24">
+            <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-sz-green">Transparency &amp; FAQ</span>
+                    <h2 class="mt-2.5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Built for Privacy. Open Source by Default.
+                    </h2>
+                    <p class="mx-auto mt-3 max-w-2xl text-base text-sz-muted">
+                        Everything ScrollZero inspects stays strictly in volatile RAM on your phone. Inspect every line of code on GitHub.
+                    </p>
+                </div>
+
+                <!-- Accordion Container -->
+                <div class="mt-12 space-y-3.5" id="faqAccordion">
+
+                    <!-- FAQ 1 -->
+                    <div class="faq-item rounded-2xl border border-sz-border bg-sz-card transition-colors">
+                        <button type="button" aria-expanded="true"
+                                class="faq-trigger flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+                            <span class="text-base font-bold text-white">Does ScrollZero read my messages or passwords?</span>
+                            <svg class="faq-chevron h-5 w-5 shrink-0 rotate-180 text-sz-green transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="faq-content px-6 pb-5 text-sm leading-relaxed text-sz-muted">
+                            <strong class="text-white">No.</strong> ScrollZero has <strong class="text-sz-green">zero internet permission</strong> in its <code class="rounded bg-sz-bg px-1.5 py-0.5 text-xs text-sz-cyan">AndroidManifest.xml</code>, making it technically impossible for the app to transmit data anywhere. Its Accessibility filter is restricted solely to YouTube, Instagram, Facebook, and TikTok packages, and the full source code is publicly auditable on GitHub.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="faq-item rounded-2xl border border-sz-border bg-sz-card transition-colors">
+                        <button type="button" aria-expanded="false"
+                                class="faq-trigger flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+                            <span class="text-base font-bold text-white">Why isn't ScrollZero on the Google Play Store?</span>
+                            <svg class="faq-chevron h-5 w-5 shrink-0 text-sz-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-5 text-sm leading-relaxed text-sz-muted">
+                            Google Play's developer policy strictly rejects apps that use Android's <code class="rounded bg-sz-bg px-1.5 py-0.5 text-xs text-sz-cyan">AccessibilityService</code> API unless the app's primary purpose is assisting users with physical or visual disabilities. Distributing ScrollZero directly via GitHub Releases keeps it free, ad-free, and completely offline.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="faq-item rounded-2xl border border-sz-border bg-sz-card transition-colors">
+                        <button type="button" aria-expanded="false"
+                                class="faq-trigger flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+                            <span class="text-base font-bold text-white">How do I pause it temporarily without turning off Accessibility?</span>
+                            <svg class="faq-chevron h-5 w-5 shrink-0 text-sz-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-5 text-sm leading-relaxed text-sz-muted">
+                            Open ScrollZero and tap the large <strong class="text-sz-green">SHIELD RUNNING (TAP TO PAUSE)</strong> button right on the home screen—or toggle off an individual platform (like YouTube Shorts or Instagram Reels) while keeping the others active. Your Accessibility permission stays untouched.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="faq-item rounded-2xl border border-sz-border bg-sz-card transition-colors">
+                        <button type="button" aria-expanded="false"
+                                class="faq-trigger flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+                            <span class="text-base font-bold text-white">How do I update ScrollZero later without losing permissions?</span>
+                            <svg class="faq-chevron h-5 w-5 shrink-0 text-sz-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-5 text-sm leading-relaxed text-sz-muted">
+                            Simply install the newer signed <code class="rounded bg-sz-bg px-1.5 py-0.5 text-xs text-white">app-release.apk</code> right over your existing installation without uninstalling first. Android preserves your Restricted Settings unlock and Accessibility toggle automatically.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- 7. CLEAN FOOTER                                           -->
+    <!-- ========================================================= -->
+    <footer class="border-t border-sz-border bg-[#0A0A0C] py-12">
+        <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 sm:flex-row sm:px-6 lg:px-8">
+            <div class="flex items-center gap-3">
+                <svg class="h-8 w-8 shrink-0" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect width="48" height="48" rx="12" fill="#18181B" stroke="#2C2C2E" stroke-width="1.5"/>
+                    <circle cx="24" cy="24" r="13.5" stroke="#FFFFFF" stroke-width="3.2"/>
+                    <path d="M21 18.2L30 24L21 29.8V18.2Z" fill="#8E8E93"/>
+                    <line x1="13.5" y1="34.5" x2="34.5" y2="13.5" stroke="#0E0E10" stroke-width="6.5" stroke-linecap="round"/>
+                    <line x1="13.5" y1="34.5" x2="34.5" y2="13.5" stroke="#34C759" stroke-width="3.4" stroke-linecap="round"/>
+                </svg>
+                <div>
+                    <div class="text-sm font-extrabold tracking-[0.16em] text-white">SCROLLZERO</div>
+                    <div class="text-xs text-sz-muted">Offline Android Short-Form Blocker • <span class="font-mono">com.scrollzero.blocker</span></div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-5 text-sm font-medium">
+                <a href="https://github.com/plyostrideos/ScrollZero" target="_blank" rel="noopener noreferrer"
+                   class="text-sz-muted transition-colors hover:text-white">
+                    GitHub Repository
+                </a>
+                <a href="https://github.com/plyostrideos/ScrollZero/releases/latest" target="_blank" rel="noopener noreferrer"
+                   class="text-sz-green transition-colors hover:text-[#3ee066]">
+                    Latest Releases (APK)
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!-- INTERACTIVE LOGIC (VANILLA JS, ZERO EXTERNAL DEPENDENCIES)-->
+    <!-- ========================================================= -->
+    <script>
+        (function () {
+            // ---------------------------------------------------------
+            // 1. Mobile Navigation Drawer
+            // ---------------------------------------------------------
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIconOpen = document.getElementById('menuIconOpen');
+            const menuIconClose = document.getElementById('menuIconClose');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    const isOpen = !mobileMenu.classList.contains('hidden');
+                    mobileMenu.classList.toggle('hidden', isOpen);
+                    menuIconOpen.classList.toggle('hidden', !isOpen);
+                    menuIconClose.classList.toggle('hidden', isOpen);
+                    mobileMenuBtn.setAttribute('aria-expanded', String(!isOpen));
+                });
+
+                document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuIconOpen.classList.remove('hidden');
+                        menuIconClose.classList.add('hidden');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // ---------------------------------------------------------
+            // 2. Interactive Phone Mockup Preview
+            // ---------------------------------------------------------
+            let masterRunning = true;
+            const mockMasterBtn = document.getElementById('mockMasterBtn');
+            const mockStatusCard = document.getElementById('mockStatusCard');
+            const mockStatusTitle = document.getElementById('mockStatusTitle');
+            const mockStatusDesc = document.getElementById('mockStatusDesc');
+            const mockActiveCount = document.getElementById('mockActiveCount');
+            const mockToastText = document.getElementById('mockToastText');
+            const phoneShieldIcon = document.getElementById('phoneShieldIcon');
+            const switchButtons = Array.from(document.querySelectorAll('.mock-switch'));
+
+            function updatePhonePreview(feedbackMsg) {
+                const enabledCount = switchButtons.filter(
+                    (btn) => btn.getAttribute('aria-checked') === 'true'
+                ).length;
+
+                if (mockActiveCount) {
+                    mockActiveCount.textContent = `${enabledCount} / 4 apps`;
+                }
+
+                if (masterRunning) {
+                    mockMasterBtn.textContent = 'SHIELD RUNNING (TAP TO PAUSE)';
+                    mockMasterBtn.className =
+                        'mt-3 flex h-11 w-full items-center justify-center rounded-xl bg-sz-green text-xs font-extrabold tracking-wide text-black transition-all active:scale-[0.98]';
+                    mockStatusCard.className =
+                        'mt-4 rounded-xl bg-sz-greenDim p-3.5 transition-colors duration-200';
+                    mockStatusTitle.textContent = 'ENGINE ACTIVE';
+                    mockStatusTitle.className = 'text-xs font-bold tracking-wide text-sz-green';
+                    mockActiveCount.className =
+                        'rounded-full bg-black/30 px-2 py-0.5 text-[10px] font-semibold text-sz-green';
+                    mockStatusDesc.textContent =
+                        enabledCount > 0
+                            ? 'Foreground shield connected. Monitoring selected apps locally.'
+                            : 'Engine active, but all platform switches are currently OFF.';
+                    phoneShieldIcon.className = 'text-[10px] text-sz-green';
+                } else {
+                    mockMasterBtn.textContent = 'SHIELD PAUSED (TAP TO ACTIVATE)';
+                    mockMasterBtn.className =
+                        'mt-3 flex h-11 w-full items-center justify-center rounded-xl bg-sz-border text-xs font-extrabold tracking-wide text-white transition-all active:scale-[0.98]';
+                    mockStatusCard.className =
+                        'mt-4 rounded-xl bg-sz-redDim p-3.5 transition-colors duration-200';
+                    mockStatusTitle.textContent = 'SHIELD PAUSED';
+                    mockStatusTitle.className = 'text-xs font-bold tracking-wide text-sz-red';
+                    mockActiveCount.className =
+                        'rounded-full bg-black/30 px-2 py-0.5 text-[10px] font-semibold text-sz-red';
+                    mockStatusDesc.textContent =
+                        'Blocking paused locally. Accessibility remains connected.';
+                    phoneShieldIcon.className = 'text-[10px] text-sz-muted';
+                }
+
+                if (feedbackMsg && mockToastText) {
+                    mockToastText.textContent = feedbackMsg;
+                }
+            }
+
+            if (mockMasterBtn) {
+                mockMasterBtn.addEventListener('click', () => {
+                    masterRunning = !masterRunning;
+                    updatePhonePreview(
+                        masterRunning
+                            ? 'Shield resumed — blocking active.'
+                            : 'Shield paused — feeds temporarily allowed.'
+                    );
+                });
+            }
+
+            switchButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const isChecked = btn.getAttribute('aria-checked') === 'true';
+                    const nextState = !isChecked;
+                    const knob = btn.querySelector('.switch-knob');
+                    const platform = btn.getAttribute('data-platform') || 'Platform';
+
+                    btn.setAttribute('aria-checked', String(nextState));
+                    if (nextState) {
+                        btn.classList.remove('bg-sz-border');
+                        btn.classList.add('bg-sz-green');
+                        knob.classList.remove('translate-x-0');
+                        knob.classList.add('translate-x-5');
+                    } else {
+                        btn.classList.remove('bg-sz-green');
+                        btn.classList.add('bg-sz-border');
+                        knob.classList.remove('translate-x-5');
+                        knob.classList.add('translate-x-0');
+                    }
+
+                    updatePhonePreview(`${platform} blocking ${nextState ? 'enabled' : 'disabled'}.`);
+                });
+            });
+
+            // ---------------------------------------------------------
+            // 3. Copy ADB Command (iframe-safe document.execCommand)
+            // ---------------------------------------------------------
+            const copyAdbBtn = document.getElementById('copyAdbBtn');
+            const copyAdbLabel = document.getElementById('copyAdbLabel');
+            const adbCmdText = document.getElementById('adbCmdText');
+
+            if (copyAdbBtn && adbCmdText) {
+                copyAdbBtn.addEventListener('click', () => {
+                    try {
+                        const tempInput = document.createElement('textarea');
+                        tempInput.value = adbCmdText.textContent.trim();
+                        tempInput.style.position = 'fixed';
+                        tempInput.style.opacity = '0';
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+
+                        copyAdbLabel.textContent = 'Copied!';
+                        copyAdbBtn.classList.add('border-sz-green', 'text-sz-green');
+                        setTimeout(() => {
+                            copyAdbLabel.textContent = 'Copy ADB Command';
+                            copyAdbBtn.classList.remove('border-sz-green', 'text-sz-green');
+                        }, 1800);
+                    } catch (err) {
+                        copyAdbLabel.textContent = 'Select & Copy';
+                    }
+                });
+            }
+
+            // ---------------------------------------------------------
+            // 4. Multi-Brand Background Setup Selector
+            // ---------------------------------------------------------
+            const brandGuides = {
+                xiaomi: {
+                    title: 'XIAOMI / HYPEROS / MIUI SETUP',
+                    subtitle: 'Prevents Xiaomi PowerKeeper from killing ScrollZero overnight.',
+                    steps: [
+                        { label: '1. Background autostart', detail: 'Open ScrollZero App Info → turn Background autostart ON.' },
+                        { label: '2. Battery saver', detail: 'In App Info → Battery saver → set to No restrictions.' },
+                        { label: '3. Pause app activity if unused', detail: 'Turn OFF so Android never auto-revokes Accessibility permissions.' },
+                        { label: '4. Lock in Recents', detail: 'Open Recent Apps → long-press ScrollZero card → tap the Padlock 🔒 icon.' }
+                    ]
+                },
+                samsung: {
+                    title: 'SAMSUNG ONE UI SETUP',
+                    subtitle: 'Keeps ScrollZero out of Samsung Deep Sleeping Apps.',
+                    steps: [
+                        { label: '1. Battery', detail: 'Open ScrollZero App Info → Battery → set to Unrestricted.' },
+                        { label: '2. Never sleeping apps', detail: 'Go to Settings → Battery → Background usage limits → add ScrollZero to Never sleeping apps.' },
+                        { label: '3. Remove permissions if unused', detail: 'Turn OFF inside ScrollZero App Info.' }
+                    ]
+                },
+                oppo: {
+                    title: 'OPPO / REALME / ONEPLUS SETUP',
+                    subtitle: 'Configures ColorOS / OxygenOS background launch permissions.',
+                    steps: [
+                        { label: '1. Battery usage', detail: 'App Info → Battery usage → enable Allow background activity and Allow auto-launch.' },
+                        { label: '2. Pause app activity if unused', detail: 'Turn OFF inside App Info.' },
+                        { label: '3. Lock in Recents', detail: 'Open Recent Apps → tap ⋮ on ScrollZero → tap Lock.' }
+                    ]
+                },
+                vivo: {
+                    title: 'VIVO / IQOO SETUP',
+                    subtitle: 'Prevents FuntouchOS / OriginOS from suspending Accessibility.',
+                    steps: [
+                        { label: '1. Background power', detail: 'App Info → Battery → set to Unrestricted / High background power consumption.' },
+                        { label: '2. Autostart', detail: 'Settings → Apps → Autostart → turn ON for ScrollZero.' },
+                        { label: '3. Pause app activity if unused', detail: 'Turn OFF inside App Info.' }
+                    ]
+                },
+                stock: {
+                    title: 'PIXEL / STOCK ANDROID SETUP',
+                    subtitle: 'Clean AOSP setup for Google Pixel, Motorola, Nothing, and Sony.',
+                    steps: [
+                        { label: '1. Battery optimization', detail: 'Tap "Allow Unrestricted Background" inside ScrollZero and choose Allow.' },
+                        { label: '2. Pause app activity if unused', detail: 'Turn OFF inside App Info so Accessibility remains active permanently.' }
+                    ]
+                }
+            };
+
+            const brandTabs = document.querySelectorAll('.brand-tab');
+            const brandCardTitle = document.getElementById('brandCardTitle');
+            const brandCardSubtitle = document.getElementById('brandCardSubtitle');
+            const brandChecklistContainer = document.getElementById('brandChecklistContainer');
+            const brandProgressBadge = document.getElementById('brandProgressBadge');
+
+            function renderBrandGuide(brandKey) {
+                const guide = brandGuides[brandKey] || brandGuides.xiaomi;
+                brandCardTitle.textContent = guide.title;
+                brandCardSubtitle.textContent = guide.subtitle;
+                brandChecklistContainer.innerHTML = '';
+
+                let checkedCount = 0;
+                const totalSteps = guide.steps.length;
+
+                function updateBadge() {
+                    if (checkedCount === totalSteps) {
+                        brandProgressBadge.textContent = `All ${totalSteps} steps done ✓`;
+                        brandProgressBadge.className =
+                            'inline-flex w-fit items-center rounded-full border border-sz-green/50 bg-sz-greenDim px-3 py-1 text-xs font-bold text-sz-green';
+                    } else {
+                        brandProgressBadge.textContent = `${checkedCount} / ${totalSteps} completed`;
+                        brandProgressBadge.className =
+                            'inline-flex w-fit items-center rounded-full border border-sz-border bg-sz-bg px-3 py-1 text-xs font-semibold text-sz-muted';
+                    }
+                }
+
+                guide.steps.forEach((step) => {
+                    const row = document.createElement('button');
+                    row.type = 'button';
+                    row.className =
+                        'flex w-full items-start gap-3.5 rounded-xl border border-sz-border bg-sz-bg p-4 text-left transition-colors hover:border-sz-muted/60';
+                    row.setAttribute('aria-pressed', 'false');
+
+                    row.innerHTML = `
+                        <span class="step-box mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-sz-border bg-sz-card text-black transition-colors">
+                            <svg class="hidden h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="step-title text-sm font-bold text-white transition-colors">${step.label}</div>
+                            <div class="mt-0.5 text-sm text-sz-muted">${step.detail}</div>
+                        </div>
+                    `;
+
+                    row.addEventListener('click', () => {
+                        const isDone = row.getAttribute('aria-pressed') === 'true';
+                        const nextDone = !isDone;
+                        const box = row.querySelector('.step-box');
+                        const checkSvg = box.querySelector('svg');
+                        const titleEl = row.querySelector('.step-title');
+
+                        row.setAttribute('aria-pressed', String(nextDone));
+                        if (nextDone) {
+                            checkedCount++;
+                            row.classList.add('border-sz-green/40');
+                            box.classList.remove('border-sz-border', 'bg-sz-card');
+                            box.classList.add('border-sz-green', 'bg-sz-green');
+                            checkSvg.classList.remove('hidden');
+                            titleEl.classList.add('line-through', 'text-sz-muted');
+                            titleEl.classList.remove('text-white');
+                        } else {
+                            checkedCount--;
+                            row.classList.remove('border-sz-green/40');
+                            box.classList.add('border-sz-border', 'bg-sz-card');
+                            box.classList.remove('border-sz-green', 'bg-sz-green');
+                            checkSvg.classList.add('hidden');
+                            titleEl.classList.remove('line-through', 'text-sz-muted');
+                            titleEl.classList.add('text-white');
+                        }
+                        updateBadge();
+                    });
+
+                    brandChecklistContainer.appendChild(row);
+                });
+
+                updateBadge();
+            }
+
+            brandTabs.forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    const selectedBrand = tab.getAttribute('data-brand');
+                    brandTabs.forEach((t) => {
+                        const active = t === tab;
+                        t.setAttribute('aria-selected', String(active));
+                        if (active) {
+                            t.className =
+                                'brand-tab rounded-xl border border-sz-green bg-sz-greenDim px-4 py-2.5 text-sm font-bold text-sz-green transition-all';
+                        } else {
+                            t.className =
+                                'brand-tab rounded-xl border border-sz-border bg-sz-card px-4 py-2.5 text-sm font-semibold text-sz-muted transition-all hover:text-white';
+                        }
+                    });
+                    renderBrandGuide(selectedBrand);
+                });
+            });
+
+            // Initialize default tab (Xiaomi / HyperOS)
+            renderBrandGuide('xiaomi');
+
+            // ---------------------------------------------------------
+            // 5. Privacy & FAQ Accordion
+            // ---------------------------------------------------------
+            const faqTriggers = document.querySelectorAll('.faq-trigger');
+            faqTriggers.forEach((trigger) => {
+                trigger.addEventListener('click', () => {
+                    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+                    const content = trigger.nextElementSibling;
+                    const chevron = trigger.querySelector('.faq-chevron');
+
+                    trigger.setAttribute('aria-expanded', String(!expanded));
+                    if (expanded) {
+                        content.classList.add('hidden');
+                        chevron.classList.remove('rotate-180', 'text-sz-green');
+                        chevron.classList.add('text-sz-muted');
+                    } else {
+                        content.classList.remove('hidden');
+                        chevron.classList.add('rotate-180', 'text-sz-green');
+                        chevron.classList.remove('text-sz-muted');
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
