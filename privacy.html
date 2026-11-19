@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy — ScrollZero</title>
+    <meta name="description" content="Privacy Policy for ScrollZero (com.scrollzero.blocker) — 100% offline Android short-form video blocker." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #0E0E10;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-[#34C759]/30 selection:text-white">
+    <!-- Top Navigation -->
+    <header class="border-b border-[#2C2C2E] bg-[#0E0E10]/90 backdrop-blur-md sticky top-0 z-10">
+        <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-4 sm:px-6">
+            <a href="./" class="flex items-center gap-2.5 text-sm font-extrabold tracking-wider text-white hover:opacity-90">
+                <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#34C759]"></span>
+                <span>SCROLLZERO</span>
+            </a>
+            <a href="./" class="rounded-lg border border-[#2C2C2E] bg-[#18181B] px-3 py-1.5 text-xs font-semibold text-[#8E8E93] transition hover:border-[#34C759]/50 hover:text-white">
+                ← Back to App Page
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
+        <div class="inline-flex items-center gap-2 rounded-full border border-[#34C759]/30 bg-[#132A1E] px-3 py-1 text-[11px] font-bold tracking-widest text-[#34C759]">
+            <span>100% OFFLINE • ZERO DATA COLLECTION</span>
+        </div>
+
+        <h1 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Privacy Policy
+        </h1>
+        <p class="mt-2 text-xs text-[#8E8E93]">
+            Package: <code class="rounded bg-[#18181B] px-1.5 py-0.5 text-neutral-300">com.scrollzero.blocker</code> &nbsp;•&nbsp; Effective Date: November 2026
+        </p>
+
+        <div class="mt-8 space-y-6 text-sm leading-relaxed text-neutral-300">
+            <!-- Section 1 -->
+            <section class="rounded-2xl border border-[#2C2C2E] bg-[#18181B] p-6">
+                <h2 class="text-base font-bold text-white">1. Core Privacy Principle: Zero Network Access</h2>
+                <p class="mt-2.5 text-[#A1A1AA]">
+                    ScrollZero (<code class="text-neutral-200">com.scrollzero.blocker</code>) is built as a strictly offline, local-only Android utility. The application does <strong class="text-white">not</strong> declare the <code class="text-neutral-200">android.permission.INTERNET</code> permission in its AndroidManifest, meaning it is technically incapable of transmitting data over Wi-Fi or mobile data.
+                </p>
+                <ul class="mt-3 list-disc space-y-1.5 pl-5 text-[#A1A1AA]">
+                    <li>No user accounts, sign-ups, or logins.</li>
+                    <li>No analytics, crash-reporting SDKs, ad networks, or third-party trackers.</li>
+                    <li>No external servers, cloud backups, or telemetry uploads.</li>
+                </ul>
+            </section>
+
+            <!-- Section 2 -->
+            <section class="rounded-2xl border border-[#2C2C2E] bg-[#18181B] p-6">
+                <h2 class="text-base font-bold text-white">2. How the Android AccessibilityService API Is Used</h2>
+                <p class="mt-2.5 text-[#A1A1AA]">
+                    To detect and exit short-form video feeds automatically, ScrollZero requires explicit user activation of Android's <strong class="text-white">AccessibilityService API</strong>. ScrollZero is a digital-wellbeing and focus utility—not an assistive tool for users with disabilities.
+                </p>
+                <div class="mt-4 space-y-3 rounded-xl border border-[#2C2C2E] bg-[#121215] p-4 text-xs text-[#A1A1AA]">
+                    <p><strong class="text-white">What it inspects in real time:</strong> Window state changes and basic UI hierarchy/tab identifiers exclusively within supported target apps (YouTube, Instagram, Facebook, and TikTok) to determine whether a short-form video feed (Shorts, Reels, or TikTok feed) is currently open.</p>
+                    <p><strong class="text-white">What action it performs:</strong> When an enabled short-form feed is detected, ScrollZero triggers a local system navigation action (such as <code class="text-neutral-200">GLOBAL_ACTION_BACK</code>) to exit the feed.</p>
+                    <p><strong class="text-white">What it NEVER does:</strong> ScrollZero does not read, record, log, or store passwords, keystrokes, private messages, photos, browsing history, or screen contents. All UI checks occur ephemerally in device RAM and are discarded immediately.</p>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section class="rounded-2xl border border-[#2C2C2E] bg-[#18181B] p-6">
+                <h2 class="text-base font-bold text-white">3. Local On-Device Storage</h2>
+                <p class="mt-2.5 text-[#A1A1AA]">
+                    ScrollZero stores only minimal configuration settings locally on your device (such as whether the master shield is active or paused, and which individual platforms are toggled on or off). These preferences remain inside the app's private Android sandbox and are completely removed if you clear app data or uninstall ScrollZero.
+                </p>
+            </section>
+
+            <!-- Section 4 -->
+            <section class="rounded-2xl border border-[#2C2C2E] bg-[#18181B] p-6">
+                <h2 class="text-base font-bold text-white">4. Third-Party Services &amp; Links</h2>
+                <p class="mt-2.5 text-[#A1A1AA]">
+                    The ScrollZero Android app itself contains no third-party SDKs or external integrations. Its companion website and APK releases are hosted on GitHub Pages and GitHub Releases (<a href="https://github.com/plyostrideos/ScrollZero" target="_blank" rel="noopener noreferrer" class="text-[#34C759] underline hover:opacity-80">github.com/plyostrideos/ScrollZero</a>), which are governed by GitHub's standard privacy statement when accessed via a web browser.
+                </p>
+            </section>
+
+            <!-- Section 5 -->
+            <section class="rounded-2xl border border-[#2C2C2E] bg-[#18181B] p-6">
+                <h2 class="text-base font-bold text-white">5. User Control &amp; Revoking Permissions</h2>
+                <p class="mt-2.5 text-[#A1A1AA]">
+                    You remain in full control of ScrollZero at all times:
+                </p>
+                <ul class="mt-3 list-disc space-y-1.5 pl-5 text-[#A1A1AA]">
+                    <li>Pause or resume blocking anytime from inside the ScrollZero app.</li>
+                    <li>Revoke Accessibility permission anytime via <strong class="text-neutral-200">Android Settings → Accessibility → ScrollZero</strong>.</li>
+                    <li>Uninstall the app at any time to remove all local settings completely.</li>
+                </ul>
+            </section>
+
+            <!-- Section 6 -->
+            <section class="rounded-2xl border border-[#2C2C2E] bg-[#18181B] p-6">
+                <h2 class="text-base font-bold text-white">6. Contact &amp; Updates</h2>
+                <p class="mt-2.5 text-[#A1A1AA]">
+                    If this privacy policy is updated for future versions of ScrollZero, the revised policy will be posted on this page with an updated effective date. For questions, bug reports, or verification requests, open an issue on the project repository at
+                    <a href="https://github.com/plyostrideos/ScrollZero" target="_blank" rel="noopener noreferrer" class="text-[#34C759] underline hover:opacity-80">github.com/plyostrideos/ScrollZero</a>.
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#2C2C2E] py-8">
+        <div class="mx-auto flex max-w-3xl flex-col items-center justify-between gap-4 px-4 text-xs text-[#8E8E93] sm:flex-row sm:px-6">
+            <span>ScrollZero • com.scrollzero.blocker</span>
+            <div class="flex items-center gap-4">
+                <a href="./" class="hover:text-white">Home</a>
+                <a href="https://github.com/plyostrideos/ScrollZero" target="_blank" rel="noopener noreferrer" class="hover:text-white">GitHub</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
