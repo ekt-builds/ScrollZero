@@ -1,4 +1,4 @@
-# ScrollZero
+# SCROLLZERO
 
 **ScrollZero** is a lightweight, 100% offline Android application built with Kotlin and Jetpack Compose that automatically exits short-form video feeds (**YouTube Shorts**, **Instagram Reels**, **Facebook Reels**, and **TikTok**) while leaving standard videos, messages, and posts untouched.
 
