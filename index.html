@@ -9,7 +9,7 @@
     <!-- OpenGraph / Social Link Preview -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="ScrollZero — Offline Short-Form Video Blocker for Android" />
-    <meta property="og:description" content="Kill the infinite scroll. Keep the rest of the app. 100% offline Android Accessibility blocker with zero internet permission." />
+    <meta property="og:description" content="Kill the infinite scroll. Keep the rest of the app. 100% offline Android Accessibility blocker with zero internet permission and 47 offline discipline verses." />
     <meta property="og:url" content="https://ekt-builds.github.io/ScrollZero/" />
     <meta property="og:image" content="https://ekt-builds.github.io/ScrollZero/logo.png" />
 
@@ -130,7 +130,7 @@
                     <!-- Status Pill Badge -->
                     <div class="inline-flex flex-wrap items-center gap-2 rounded-full border border-sz-border bg-sz-card/90 px-3.5 py-1.5 text-[11px] font-bold tracking-[0.12em] text-sz-green sm:text-xs">
                         <span class="h-2 w-2 rounded-full bg-sz-green shadow-[0_0_10px_#34C759]"></span>
-                        <span>100% OFFLINE • ZERO INTERNET PERMISSION • ANDROID 8.0+</span>
+                        <span>v1.0.0 • 100% OFFLINE • ZERO INTERNET PERMISSION • ANDROID 8.0+</span>
                     </div>
 
                     <h1 class="mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
@@ -143,7 +143,7 @@
                         <span class="font-medium text-white">YouTube Shorts</span>,
                         <span class="font-medium text-white">Instagram Reels</span>,
                         <span class="font-medium text-white">Facebook Reels</span>, and
-                        <span class="font-medium text-white">TikTok feeds</span>—without blocking regular videos, DMs, or posts.
+                        <span class="font-medium text-white">TikTok feeds</span>—without blocking regular videos, DMs, or posts. Includes <span class="font-medium text-white">47 offline discipline verses</span> built right into the app.
                     </p>
 
                     <!-- Primary & Secondary CTA Buttons -->
@@ -155,7 +155,7 @@
                                 <polyline points="7 10 12 15 17 10"/>
                                 <line x1="12" y1="15" x2="12" y2="3"/>
                             </svg>
-                            <span>Download APK (v1.0)</span>
+                            <span>Download APK (v1.0.0)</span>
                         </a>
 
                         <a href="https://github.com/ekt-builds/ScrollZero" target="_blank" rel="noopener noreferrer"
@@ -178,8 +178,8 @@
                             <div class="text-xs text-sz-muted">CPU scan throttle</div>
                         </div>
                         <div>
-                            <div class="text-lg font-bold text-white sm:text-xl">Kotlin</div>
-                            <div class="text-xs text-sz-muted">Jetpack Compose</div>
+                            <div class="text-lg font-bold text-white sm:text-xl">47 Verses</div>
+                            <div class="text-xs text-sz-muted">Offline discipline</div>
                         </div>
                     </div>
                 </div>
@@ -188,13 +188,13 @@
                 <div class="flex flex-col items-center lg:col-span-5">
                     <div class="mb-3 flex items-center gap-2 text-xs font-medium text-sz-muted">
                         <span class="inline-block h-2 w-2 animate-pulse rounded-full bg-sz-cyan"></span>
-                        <span>Interactive Preview — Tap buttons & switches below</span>
+                        <span>Interactive Preview — Tap verse, buttons & switches</span>
                     </div>
 
                     <!-- Phone Outer Frame -->
                     <div class="relative w-full max-w-[330px] rounded-[42px] border-[6px] border-[#262629] bg-sz-bg p-3.5 shadow-[0_25px_70px_rgba(0,0,0,0.75)] ring-1 ring-white/10">
                         <!-- Top Status Bar & Camera Punch-Hole -->
-                        <div class="mb-4 flex items-center justify-between px-2 pt-0.5 text-[11px] font-semibold text-white/80">
+                        <div class="mb-3 flex items-center justify-between px-2 pt-0.5 text-[11px] font-semibold text-white/80">
                             <span>19:32</span>
                             <div class="h-4 w-4 rounded-full bg-[#050506] ring-1 ring-white/10"></div>
                             <div class="flex items-center gap-1.5">
@@ -212,28 +212,40 @@
                                 <div class="text-[11px] text-sz-muted">Offline Short-Form Blocker</div>
                             </div>
 
+                            <!-- Interactive Discipline Verse Card (Top — Tap to Next) -->
+                            <button id="mockVerseCard" type="button"
+                                    class="mt-3 w-full rounded-xl border border-sz-border bg-sz-card px-3 py-2.5 text-left transition-colors hover:border-sz-green/50 active:scale-[0.99]">
+                                <p id="mockVerseText" class="text-[11px] italic leading-relaxed text-[#E5E5EA]">
+                                    Without self-restraint, a person's inner life is left undefended like a city with broken walls.
+                                </p>
+                                <div class="mt-1.5 flex items-center justify-between">
+                                    <span id="mockVerseRef" class="text-[10px] font-semibold tracking-wide text-sz-green">Proverbs 25:28</span>
+                                    <span id="mockVerseCount" class="text-[9px] font-medium text-sz-muted">1/47 • Tap next</span>
+                                </div>
+                            </button>
+
                             <!-- Engine Status Card -->
-                            <div id="mockStatusCard" class="mt-4 rounded-xl bg-sz-greenDim p-3.5 transition-colors duration-200">
+                            <div id="mockStatusCard" class="mt-3 rounded-xl bg-sz-greenDim p-3 transition-colors duration-200">
                                 <div class="flex items-center justify-between">
                                     <span id="mockStatusTitle" class="text-xs font-bold tracking-wide text-sz-green">ENGINE ACTIVE</span>
                                     <span id="mockActiveCount" class="rounded-full bg-black/30 px-2 py-0.5 text-[10px] font-semibold text-sz-green">4 / 4 apps</span>
                                 </div>
-                                <p id="mockStatusDesc" class="mt-1.5 text-[11px] leading-snug text-[#D1D1D6]">
+                                <p id="mockStatusDesc" class="mt-1 text-[11px] leading-snug text-[#D1D1D6]">
                                     Foreground shield connected. Monitoring selected apps locally.
                                 </p>
                             </div>
 
                             <!-- Master Shield Toggle Button -->
                             <button id="mockMasterBtn" type="button"
-                                    class="mt-3 flex h-11 w-full items-center justify-center rounded-xl bg-sz-green text-xs font-extrabold tracking-wide text-black transition-all active:scale-[0.98]">
+                                    class="mt-2.5 flex h-10 w-full items-center justify-center rounded-xl bg-sz-green text-[11px] font-extrabold tracking-wide text-black transition-all active:scale-[0.98]">
                                 SHIELD RUNNING (TAP TO PAUSE)
                             </button>
 
                             <!-- Platform Toggle Switches -->
-                            <div class="mt-4 divide-y divide-sz-border/60">
+                            <div class="mt-3 divide-y divide-sz-border/60">
                                 <!-- YouTube Shorts -->
-                                <div class="flex items-center justify-between py-2.5">
-                                    <span class="text-[13px] font-medium text-white">YouTube Shorts</span>
+                                <div class="flex items-center justify-between py-2">
+                                    <span class="text-[12.5px] font-medium text-white">YouTube Shorts</span>
                                     <button type="button" role="switch" aria-checked="true" data-platform="YouTube Shorts"
                                             class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
                                         <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
@@ -241,8 +253,8 @@
                                 </div>
 
                                 <!-- Instagram Reels -->
-                                <div class="flex items-center justify-between py-2.5">
-                                    <span class="text-[13px] font-medium text-white">Instagram Reels</span>
+                                <div class="flex items-center justify-between py-2">
+                                    <span class="text-[12.5px] font-medium text-white">Instagram Reels</span>
                                     <button type="button" role="switch" aria-checked="true" data-platform="Instagram Reels"
                                             class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
                                         <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
@@ -250,8 +262,8 @@
                                 </div>
 
                                 <!-- Facebook Reels -->
-                                <div class="flex items-center justify-between py-2.5">
-                                    <span class="text-[13px] font-medium text-white">Facebook Reels</span>
+                                <div class="flex items-center justify-between py-2">
+                                    <span class="text-[12.5px] font-medium text-white">Facebook Reels</span>
                                     <button type="button" role="switch" aria-checked="true" data-platform="Facebook Reels"
                                             class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
                                         <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
@@ -259,8 +271,8 @@
                                 </div>
 
                                 <!-- TikTok Feed -->
-                                <div class="flex items-center justify-between py-2.5">
-                                    <span class="text-[13px] font-medium text-white">TikTok Feed</span>
+                                <div class="flex items-center justify-between py-2">
+                                    <span class="text-[12.5px] font-medium text-white">TikTok Feed</span>
                                     <button type="button" role="switch" aria-checked="true" data-platform="TikTok Feed"
                                             class="mock-switch relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-sz-green p-0.5 transition-colors">
                                         <span class="switch-knob inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition-transform"></span>
@@ -269,13 +281,13 @@
                             </div>
 
                             <!-- Mini Live Event Feedback Bar -->
-                            <div class="mt-3 rounded-xl border border-sz-border bg-sz-card px-3 py-2 text-[11px] text-sz-muted">
+                            <div class="mt-2.5 rounded-xl border border-sz-border bg-sz-card px-3 py-2 text-[11px] text-sz-muted">
                                 <span class="font-semibold text-sz-cyan">Status:</span>
                                 <span id="mockToastText">Silent foreground shield active.</span>
                             </div>
 
                             <!-- Bottom Gesture Pill -->
-                            <div class="mx-auto mt-4 h-1 w-24 rounded-full bg-white/25"></div>
+                            <div class="mx-auto mt-3.5 h-1 w-24 rounded-full bg-white/25"></div>
                         </div>
                     </div>
                 </div>
@@ -624,7 +636,7 @@
                         Built for Privacy. Open Source by Default.
                     </h2>
                     <p class="mx-auto mt-3 max-w-2xl text-base text-sz-muted">
-                        Everything ScrollZero inspects stays strictly in volatile RAM on your phone. Inspect every line of code on GitHub.
+                        Everything ScrollZero inspects stays strictly in volatile RAM on your phone. Inspect every line of code on GitHub or read the <a href="./privacy.html" class="text-sz-green underline hover:opacity-80">full Privacy Policy</a>.
                     </p>
                 </div>
 
@@ -706,6 +718,9 @@
             </div>
 
             <div class="flex flex-wrap items-center justify-center gap-5 text-sm font-medium">
+                <a href="./privacy.html" class="text-sz-muted transition-colors hover:text-white">
+                    Privacy Policy
+                </a>
                 <a href="https://github.com/ekt-builds/ScrollZero" target="_blank" rel="noopener noreferrer"
                    class="text-sz-muted transition-colors hover:text-white">
                     GitHub Repository
@@ -751,8 +766,32 @@
             }
 
             // ---------------------------------------------------------
-            // 2. Interactive Phone Mockup Preview
+            // 2. Interactive Phone Mockup Preview (Verses + Controls)
             // ---------------------------------------------------------
+            const previewVerses = [
+                { num: 1, ref: 'Proverbs 25:28', text: "Without self-restraint, a person's inner life is left undefended like a city with broken walls." },
+                { num: 2, ref: 'Proverbs 16:32', text: 'Patience and self-command carry greater strength than conquering a city by force.' },
+                { num: 3, ref: '1 Corinthians 9:25', text: 'Every serious athlete practices strict self-control across all areas of training.' },
+                { num: 4, ref: '2 Timothy 1:7', text: "God's Spirit brings power, love, and sound self-control rather than fear or impulse." },
+                { num: 5, ref: 'Proverbs 4:25', text: 'Keep your eyes fixed straight ahead rather than drifting toward distractions.' }
+            ];
+            let previewVerseIdx = 0;
+
+            const mockVerseCard = document.getElementById('mockVerseCard');
+            const mockVerseText = document.getElementById('mockVerseText');
+            const mockVerseRef = document.getElementById('mockVerseRef');
+            const mockVerseCount = document.getElementById('mockVerseCount');
+
+            if (mockVerseCard) {
+                mockVerseCard.addEventListener('click', () => {
+                    previewVerseIdx = (previewVerseIdx + 1) % previewVerses.length;
+                    const v = previewVerses[previewVerseIdx];
+                    mockVerseText.textContent = v.text;
+                    mockVerseRef.textContent = v.ref;
+                    mockVerseCount.textContent = `${v.num}/47 • Tap next`;
+                });
+            }
+
             let masterRunning = true;
             const mockMasterBtn = document.getElementById('mockMasterBtn');
             const mockStatusCard = document.getElementById('mockStatusCard');
@@ -775,9 +814,9 @@
                 if (masterRunning) {
                     mockMasterBtn.textContent = 'SHIELD RUNNING (TAP TO PAUSE)';
                     mockMasterBtn.className =
-                        'mt-3 flex h-11 w-full items-center justify-center rounded-xl bg-sz-green text-xs font-extrabold tracking-wide text-black transition-all active:scale-[0.98]';
+                        'mt-2.5 flex h-10 w-full items-center justify-center rounded-xl bg-sz-green text-[11px] font-extrabold tracking-wide text-black transition-all active:scale-[0.98]';
                     mockStatusCard.className =
-                        'mt-4 rounded-xl bg-sz-greenDim p-3.5 transition-colors duration-200';
+                        'mt-3 rounded-xl bg-sz-greenDim p-3 transition-colors duration-200';
                     mockStatusTitle.textContent = 'ENGINE ACTIVE';
                     mockStatusTitle.className = 'text-xs font-bold tracking-wide text-sz-green';
                     mockActiveCount.className =
@@ -790,9 +829,9 @@
                 } else {
                     mockMasterBtn.textContent = 'SHIELD PAUSED (TAP TO ACTIVATE)';
                     mockMasterBtn.className =
-                        'mt-3 flex h-11 w-full items-center justify-center rounded-xl bg-sz-border text-xs font-extrabold tracking-wide text-white transition-all active:scale-[0.98]';
+                        'mt-2.5 flex h-10 w-full items-center justify-center rounded-xl bg-sz-border text-[11px] font-extrabold tracking-wide text-white transition-all active:scale-[0.98]';
                     mockStatusCard.className =
-                        'mt-4 rounded-xl bg-sz-redDim p-3.5 transition-colors duration-200';
+                        'mt-3 rounded-xl bg-sz-redDim p-3 transition-colors duration-200';
                     mockStatusTitle.textContent = 'SHIELD PAUSED';
                     mockStatusTitle.className = 'text-xs font-bold tracking-wide text-sz-red';
                     mockActiveCount.className =
